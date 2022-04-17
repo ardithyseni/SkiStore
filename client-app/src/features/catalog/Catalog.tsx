@@ -1,14 +1,15 @@
 import { Fragment, useEffect, useState } from "react";
 import { Product } from "../../app/models/product";
-import { Button } from "@mui/material";
 import ProductList from "./ProductList";
 
 // what properties are required to be passed down here
+
 // interface Props {
 //     products: Product[];
 //     addProduct: () => void;
 //     // void sepse nuk merr parameter dhe eshte void, duhet edhe child me dit
 // }
+
 
 
 // export default function Catalog({products, addProduct}: Props) {
