@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
+import agent from "../../app/api/agent";
 
 export default function ProductDetails() {
 
@@ -16,8 +17,8 @@ export default function ProductDetails() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/products/${id}`)
-            .then(response => setProduct(response.data)) // return data of json response
+        agent.Catalog.details(parseInt(id))
+            .then(response => setProduct(response)) // return data of json response
             .catch(error => console.log(error)) // if != 200OK  show error
             .finally(() => setLoading(false));
     }, [id]) // the get will get called when component mounts && if id changes

@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
+import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
 import ProductList from "./ProductList";
 
@@ -17,10 +18,14 @@ export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
-  }, []); // the [] is a dependency and makes the useEffect method run once only
+    agent.Catalog.list().then(products => setProducts(products))
+  }, [])
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/products")
+  //     .then((response) => response.json())
+  //     .then((data) => setProducts(data));
+  // }, []); // the [] is a dependency and makes the useEffect method run once only
   // otherwise, it gets called everytime something renders or rerenders
 
   
