@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,8 @@ namespace API
         // ordering of what happens inside Configure() matters
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ExceptionMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
