@@ -1,6 +1,5 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
 import agent from "../../app/api/agent";
@@ -19,7 +18,7 @@ export default function ProductDetails() {
     useEffect(() => {
         agent.Catalog.details(parseInt(id))
             .then(response => setProduct(response)) // return data of json response
-            .catch(error => console.log(error)) // if != 200OK  show error
+            .catch(error => console.log(error.response)) // if != 200OK  show axios error response
             .finally(() => setLoading(false));
     }, [id]) // the get will get called when component mounts && if id changes
 

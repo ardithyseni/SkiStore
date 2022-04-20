@@ -7,7 +7,8 @@ import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // const products = [
 //   {
@@ -22,7 +23,7 @@ import ContactPage from "../../features/contact/ContactPage";
 
 function App() {
 
-  const[darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const paletteType = darkMode ? 'dark' : 'light'
 
@@ -31,7 +32,7 @@ function App() {
       mode: paletteType,
       background: {
         default: paletteType === 'light' ? '#edfcff' : '#121212'
-      } 
+      }
 
     },
   });
@@ -46,6 +47,17 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <CssBaseline />
       {/*clear margins and paddings*/}
 
@@ -54,11 +66,11 @@ function App() {
       {/* we are passing down props of the parent to child component */}
 
       <Container>
-        <Route exact path='/' component={HomePage}/>
-        <Route exact path='/catalog' component={Catalog}/>
-        <Route path='/catalog/:id' component={ProductDetails}/>
-        <Route path='/about' component={AboutPage}/>
-        <Route path='/contact' component={ContactPage}/>
+        <Route exact path='/' component={HomePage} />
+        <Route exact path='/catalog' component={Catalog} />
+        <Route path='/catalog/:id' component={ProductDetails} />
+        <Route path='/about' component={AboutPage} />
+        <Route path='/contact' component={ContactPage} />
       </Container>
     </ThemeProvider>
   );
