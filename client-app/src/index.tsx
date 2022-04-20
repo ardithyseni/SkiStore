@@ -3,14 +3,20 @@ import ReactDOM from "react-dom";
 import "./app/layout/styles.css";
 import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+
+export const history = createBrowserHistory();
+// BrowserRouter ignores the history prop as it handles 
+// the history automatically for you. If you need access 
+// to the history outside of a react component(in our case agent.ts) then using Router should be fine.
 
 ReactDOM.render(
 
   <React.StrictMode>
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
   </React.StrictMode>,
   
   document.getElementById("root")
