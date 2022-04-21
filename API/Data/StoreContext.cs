@@ -11,5 +11,7 @@ namespace API.Data
 
         public DbSet<Product> Products { get; set; } // the name of the sql table
 
+        public DbSet<Basket> Baskets { get; set; }
+
     }
 }
