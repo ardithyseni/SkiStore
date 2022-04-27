@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
+import BasketPage from "../../features/basket/BasketPage";
 
 // const products = [
 //   {
@@ -75,6 +76,7 @@ function App() {
           <Route path='/about' component={AboutPage} />
           <Route path='/contact' component={ContactPage} />
           <Route path='/server-error' component={ServerError} />
+          <Route path='/basket' component={BasketPage} />
           <Route component={NotFound} />
         </Switch>
       </Container>
