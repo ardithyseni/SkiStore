@@ -1,23 +1,43 @@
-import { Delete } from "@mui/icons-material";
+import { Add, Delete, Remove } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import { IconButton, Paper, Table, TableBody, TableCell, Avatar, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect, useState } from "react"
+import { useState } from "react";
 import agent from "../../app/api/agent";
-import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Basket } from "../../app/models/basket";
+import { useStoreContext } from "../../app/context/StoreContext";
 
 export default function BasketPage() {
 
-    const [loading, setLoading] = useState(true);
-    const [basket, setBasket] = useState<Basket | null>(null);
+    const {basket, setBasket, removeItem} = useStoreContext();
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        agent.Basket.get()
+    function handleAddItem(productId: number) {
+        setLoading(true);
+        agent.Basket.addItem(productId)
             .then(basket => setBasket(basket))
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
-    }, []);
+    }
 
-    if (loading) return <LoadingComponent message="Loading Cart..." />
+    function handleRemoveItem(productId: number, quantity = 1) {
+        setLoading(true);
+        agent.Basket.removeItem(productId, quantity)
+            .then(() => removeItem(productId, quantity))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+            
+    }
+
+    // const [loading, setLoading] = useState(true);
+    // const [basket, setBasket] = useState<Basket | null>(null);
+
+    // useEffect(() => {
+    //     agent.Basket.get()
+    //         .then(basket => setBasket(basket))
+    //         .catch(error => console.log(error))
+    //         .finally(() => setLoading(false))
+    // }, []);
+
+    // if (loading) return <LoadingComponent message="Loading Cart..." />
 
     if (!basket) return <Typography variant='h3'>Your cart is empty</Typography>
 
@@ -29,7 +49,7 @@ export default function BasketPage() {
                         <TableCell>Image</TableCell>
                         <TableCell>Product</TableCell>
                         <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">Quantity</TableCell>
+                        <TableCell align="center">Quantity</TableCell>
                         <TableCell align="right">Subtotal</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
@@ -53,12 +73,29 @@ export default function BasketPage() {
                             </TableCell>
 
                             <TableCell align="right">{item.price} €</TableCell>
-                            <TableCell align="right">{item.quantity}</TableCell>
+                            <TableCell align="center">
+                                <LoadingButton 
+                                    loading={loading} 
+                                    onClick={() => handleRemoveItem(item.productId)} 
+                                    color='error'>
+                                    <Remove/>
+                                </LoadingButton>
+                                {item.quantity}
+                                <LoadingButton 
+                                    loading={loading} 
+                                    onClick={() => handleAddItem(item.productId)}
+                                    color='secondary'>
+                                    <Add/>
+                                </LoadingButton>
+                            </TableCell>
                             <TableCell align="right">{item.price * item.quantity}€</TableCell>
                             <TableCell align="right">
-                                <IconButton color="error">
+                                <LoadingButton 
+                                    loading={loading} 
+                                    onClick={() => handleRemoveItem(item.productId, item.quantity)} 
+                                    color="error">
                                     <Delete />
-                                </IconButton>
+                                </LoadingButton>
                             </TableCell>
                         </TableRow>
                     ))}
