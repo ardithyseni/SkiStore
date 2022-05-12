@@ -1,13 +1,12 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../../app/models/product";
-import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { addBasketItemAsync, removeBasketItemAsync } from "../basket/basketSlice";
+import { fetchProductAsync, productSelectors } from "./catalogSlice";
 
 export default function ProductDetails() {
 
@@ -17,11 +16,13 @@ export default function ProductDetails() {
     // Returns an object of the params for the route rendered.
     const { id } = useParams<{ id: string }>();
 
+    const product = useAppSelector(state => productSelectors.selectById(state, id));
+
+    const {status: productStatus} = useAppSelector(state => state.catalog);
+
     // explicitly telling that we are using Products or null, setting it into null default
     // useState is a Hook that allows you to have state variables in functional components.
-    const [product, setProduct] = useState<Product | null>(null);
-
-    const [loading, setLoading] = useState(true);
+    // const [product, setProduct] = useState<Product | null>(null);
 
     const [quantity, setQuantity] = useState(0);
     const item = basket?.items.find(i => i.productId === product?.id);
@@ -30,11 +31,13 @@ export default function ProductDetails() {
     useEffect(() => {
         if (item) setQuantity(item.quantity);
 
-        agent.Catalog.details(parseInt(id))
-            .then(response => setProduct(response)) // return data of json response
-            .catch(error => console.log(error.response)) // if != 200OK  show axios error response
-            .finally(() => setLoading(false));
-    }, [id, item]) // the get will get called when component mounts && if id changes
+        if (!product) dispatch(fetchProductAsync(parseInt(id)));
+
+        // agent.Catalog.details(parseInt(id)).then(response => setProduct(response)) // return data of json response
+        //     .catch(error => console.log(error.response)) // if != 200OK  show axios error response
+        //     .finally(() => setLoading(false));
+
+    }, [id, item, dispatch, product]) // the get will get called when component mounts && if id changes
 
     function handleInputChange(event: any) {
         if (event.target.value >= 0) {
@@ -59,7 +62,7 @@ export default function ProductDetails() {
         }
     }
 
-    if (loading) return <LoadingComponent message="Loading product..." />
+    if (productStatus.includes('pending')) return <LoadingComponent message="Loading product..." />
 
     if (!product) return <NotFound />
 

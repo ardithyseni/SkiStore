@@ -14,6 +14,7 @@ export const history = createBrowserHistory();
 // the history automatically for you. If you need access 
 // to the history outside of a react component(in our case agent.ts) then using Router should be fine.
 
+
 ReactDOM.render(
 
   <React.StrictMode>

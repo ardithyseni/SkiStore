@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
-import agent from "../../app/api/agent";
+import { Fragment, useEffect } from "react";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Product } from "../../app/models/product";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchProductsAsync, productSelectors } from "./catalogSlice";
 import ProductList from "./ProductList";
 
 // what properties are required to be passed down here
@@ -17,18 +17,22 @@ import ProductList from "./ProductList";
 // export default function Catalog({products, addProduct}: Props) {
 export default function Catalog() {
   
-  const [products, setProducts] = useState<Product[]>([]);
+  // const [products, setProducts] = useState<Product[]>([]);
+  const products = useAppSelector(productSelectors.selectAll); // select all products
+  const {productsLoaded, status} = useAppSelector(state => state.catalog);
+  const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    agent.Catalog.list()
-      .then(products => setProducts(products))
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false))
-  }, [])
+    // agent.Catalog.list().then(products => setProducts(products))
+    //   .catch(error => console.log(error))
+    //   .finally(() => setLoading(false))
 
-  if (loading) return <LoadingComponent message="Loading products..."/>
+    if (!productsLoaded) dispatch(fetchProductsAsync());
+
+  }, [productsLoaded, dispatch])
+
+  if (status.includes('pending')) return <LoadingComponent message="Loading products..."/>
 
   // useEffect(() => {
   //   fetch("http://localhost:5000/api/products")
