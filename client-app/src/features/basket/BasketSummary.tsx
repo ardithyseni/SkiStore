@@ -1,10 +1,10 @@
 import { TableContainer, Paper, Table, TableBody, TableRow, TableCell } from "@mui/material";
-import { useStoreContext } from "../../app/context/StoreContext";
+import { useAppSelector } from "../../app/store/configureStore";
 
 
 export default function BasketSummary() {
 
-    const {basket} = useStoreContext();
+    const {basket} = useAppSelector(state => state.basket);
     
     // The final result of running the reducer across all elements of the array is a single value.
     // the sum is gonna be our value, iterate over items, add sum with qntty * price, start at 0, if null | undefined set to 0
