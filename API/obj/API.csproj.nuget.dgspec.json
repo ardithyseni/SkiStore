@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\API.csproj": {}
+    "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\API.csproj": {
+    "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\API.csproj",
+        "projectPath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Ardit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\obj\\",
+        "outputPath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ardit\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -29,7 +29,7 @@ export default function Catalog() {
 
   // const [products, setProducts] = useState<Product[]>([]);
   const products = useAppSelector(productSelectors.selectAll); // select all products
-  const { productsLoaded, status, filtersLoaded, brands, types, productParams, metaData } = useAppSelector(state => state.catalog);
+  const { productsLoaded, filtersLoaded, brands, types, productParams, metaData } = useAppSelector(state => state.catalog);
   const dispatch = useAppDispatch();
 
 
@@ -46,7 +46,7 @@ export default function Catalog() {
   }, [dispatch, filtersLoaded])
 
 
-  if (status.includes('pending') || !metaData) return <LoadingComponent message="Loading products..." />
+  if (!filtersLoaded) return <LoadingComponent message="Loading products..." />
 
 
 
@@ -108,10 +108,12 @@ export default function Catalog() {
       <Grid item xs={3} />
 
       <Grid item xs={9} sx = {{mt: 2}}>
+        {metaData &&
         <AppPagination 
           metaData={metaData}
           onPageChange={(page: number) => dispatch(setPageNumber({pageNumber: page}))}
         />
+      }
       </Grid>
 
     </Grid>
