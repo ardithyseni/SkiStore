@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dqgy0qbEM9zotV0NZ7YfHcNUhSufw6/DsKGokKKw1eK9/glPEwNVIFhtGmH8P2z4xVTMmZJBcwswXGQAkHXvkw==",
+  "dgSpecHash": "MinnX1mPvcegxP8OR40CfTqGCfVNlKnHORAMThh2BT1eRPPxla0vDFv0wEpqg1p4ADPYePXXv8iwKBZPG7VZ5g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\Ardit\\Desktop\\SkiStore\\api\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ardit\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Ardit\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
