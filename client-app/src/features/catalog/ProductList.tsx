@@ -10,15 +10,16 @@ interface Props {
 
 export default function ProductList({ products }: Props) {
 
-  const {productsLoaded} = useAppSelector(state => state.catalog); 
+  const { productsLoaded } = useAppSelector(state => state.catalog);
 
   return (
     <Grid container spacing={4}>
       {products.map(product => (
         <Grid item xs={4} key={product.id}>
           {!productsLoaded ? (
-            <ProductCardSkeleton />
-          ):(
+            // Skeleton component - a placeholder preview of your content
+            <ProductCardSkeleton /> // before the data gets loaded to reduce load-time frustration.
+          ) : (
             <ProductCard key={product.id} product={product} />
           )}
         </Grid>
