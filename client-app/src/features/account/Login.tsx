@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
-import agent from '../../app/api/agent';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch } from '../../app/store/configureStore';
@@ -32,8 +31,7 @@ export default function Login() {
     async function submitForm(data: FieldValues) {
         
         await dispatch(signInUser(data));
-        history.push('/catalog')
-            
+        history.push('/catalog');
     }
 
     // const [values, setValues] = useState({
