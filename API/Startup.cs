@@ -74,7 +74,7 @@ namespace API
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
             })
-                .AddRoles<IdentityRole>()
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<StoreContext>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
