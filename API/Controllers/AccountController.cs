@@ -37,7 +37,7 @@ namespace API.Controllers
             var userBasket = await RetrieveBasket(loginDto.Username);
             var anonBasket = await RetrieveBasket(Request.Cookies["buyerId"]);
 
-            if (anonBasket != null) 
+            if (anonBasket != null)
             {
                 if (userBasket != null) _context.Baskets.Remove(userBasket);
                 anonBasket.BuyerId = user.UserName;
@@ -49,7 +49,7 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket.MapBasketToDto()
+                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket?.MapBasketToDto()
             };
         }
 
@@ -81,10 +81,13 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name); // get the jwt name claim
 
+            var userBasket = await RetrieveBasket(User.Identity.Name);
+
             return new UserDto
             {
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                Basket = userBasket?.MapBasketToDto()
             };
         }
 
@@ -95,11 +98,11 @@ namespace API.Controllers
                 Response.Cookies.Delete("buyerId");
                 return null;
             }
-            var basket = await _context.Baskets
+            return await _context.Baskets
             .Include(i => i.Items) // include related entities in the query
             .ThenInclude(p => p.Product)
-            .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]);
-            return basket;
+            .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
+            // return basket;
         }
 
     }

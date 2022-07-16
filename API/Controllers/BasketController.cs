@@ -88,11 +88,11 @@ namespace API.Controllers
                 Response.Cookies.Delete("buyerId");
                 return null;
             }
-            var basket = await _context.Baskets
+            return await _context.Baskets
             .Include(i => i.Items) // include related entities in the query
             .ThenInclude(p => p.Product)
-            .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]);
-            return basket;
+            .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
+            // return basket;
         }
 
         private string GetBuyerId()
@@ -117,7 +117,6 @@ namespace API.Controllers
 
             }
 
-
             var basket = new Basket
             {
                 BuyerId = buyerId
@@ -130,7 +129,21 @@ namespace API.Controllers
 
         // private BasketDto MapBasketToDto(Basket basket)
         // {
-            
+        //     return new BasketDto
+        //     {
+        //         Id = basket.Id,
+        //         BuyerId = basket.BuyerId,
+        //         Items = basket.Items.Select(item => new BasketItemDto
+        //         {
+        //             ProductId = item.ProductId,
+        //             Name = item.Product.Name,
+        //             Price = item.Product.Price,
+        //             PictureUrl = item.Product.PictureUrl,
+        //             Type = item.Product.Type,
+        //             Brand = item.Product.Brand,
+        //             Quantity = item.Quantity
+        //         }).ToList() // project our item into item dto
+        //     };
         // }
 
     }
