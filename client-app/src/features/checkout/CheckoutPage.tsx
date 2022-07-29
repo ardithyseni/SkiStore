@@ -14,16 +14,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './CheckoutValidation';
 
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
 function getStepContent(step: number) {
     switch (step) {
         case 0:
             return <AddressForm />;
         case 1:
-            return <PaymentForm />;
+            return <Review/>;
         case 2:
-            return <Review />;
+            return <PaymentForm />;
         default:
             throw new Error('Unknown step');
     }
@@ -32,14 +32,18 @@ function getStepContent(step: number) {
 // const theme = createTheme();
 
 export default function CheckoutPage() {
-    const methods = useForm({
-        mode: 'all',
-        resolver: yupResolver(validationSchema)
-    });
+    
     const [activeStep, setActiveStep] = React.useState(0);
 
+    const currentValidationSchema = validationSchema[activeStep];
+
+    const methods = useForm({
+        mode: 'all',
+        resolver: yupResolver(currentValidationSchema)
+    });
+
     const handleNext = (data: FieldValues) => {
-        if (activeStep === 0) {
+        if (activeStep === 2) {
             console.log(data)
         }
         setActiveStep(activeStep + 1);
