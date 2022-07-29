@@ -1,21 +1,16 @@
-import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import AppTextInput from '../../app/components/AppTextInput';
-import { Button } from '@mui/material';
+import AppCheckbox from '../../app/components/AppCheckbox';
 
 export default function AddressForm() {
-    const { control, handleSubmit } = useForm();
+    const { control } = useFormContext(); // controls stored to the form context
     return (
         <>
             <Typography variant="h6" gutterBottom>
                 Shipping address
             </Typography>
-            <form action="" onSubmit={handleSubmit((data) => console.log(data))}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
                     <AppTextInput
@@ -58,14 +53,14 @@ export default function AddressForm() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label="Use this address for payment details"
+                    <AppCheckbox 
+                        name='saveAddress' 
+                        label='Save this as the default address' 
+                        control={control} 
                     />
                 </Grid>
             </Grid>
-            <Button type='submit'>Submit Form</Button>
-            </form>
+            
         </>
     );
 }
