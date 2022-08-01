@@ -11,7 +11,7 @@ import Review from './Review';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './CheckoutValidation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import agent from '../../app/api/agent';
 import { useAppDispatch } from '../../app/store/configureStore';
 import { clearBasket } from '../basket/basketSlice';
@@ -48,6 +48,16 @@ export default function CheckoutPage() {
         mode: 'all',
         resolver: yupResolver(currentValidationSchema)
     });
+
+    useEffect(() => {
+        agent.Account.fetchAddress()
+            .then(response => {
+                if (response) {
+                    methods.reset({...methods.getValues(), ...response, saveAddress: false}) 
+                } // reset our form with the values we get back here
+            })
+    }, [methods])
+
 
     const handleNext = async (data: FieldValues) => {
 
