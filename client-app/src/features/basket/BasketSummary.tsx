@@ -2,13 +2,19 @@ import { TableContainer, Paper, Table, TableBody, TableRow, TableCell } from "@m
 import { useAppSelector } from "../../app/store/configureStore";
 
 
-export default function BasketSummary() {
+interface Props {
+    subtotal?: number;
+}
+
+export default function BasketSummary({subtotal}: Props) {
 
     const {basket} = useAppSelector(state => state.basket);
     
     // The final result of running the reducer across all elements of the array is a single value.
     // the sum is gonna be our value, iterate over items, add sum with qntty * price, start at 0, if null | undefined set to 0
-    const subtotal = basket?.items.reduce((sum, items) => sum + (items.quantity * items.price), 0) ?? 0;
+    
+    if (subtotal === undefined)
+        subtotal = basket?.items.reduce((sum, items) => sum + (items.quantity * items.price), 0) ?? 0;
     const deliveryFee = subtotal > 100 ? 0 : 10;
 
     return (
