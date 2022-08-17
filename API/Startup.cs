@@ -92,9 +92,9 @@ namespace API
                 });
 
             services.AddAuthorization();
-
             // services.AddSingleton(); this would be created when our application starts and stay until it stopped
             services.AddScoped<TokenService>();
+            services.AddScoped<PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
