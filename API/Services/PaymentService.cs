@@ -31,7 +31,7 @@ namespace API.Services
             {
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = subtotal + deliveryFee,
+                    Amount = (subtotal + deliveryFee) * 100,
                     Currency = "eur",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
