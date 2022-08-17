@@ -36,8 +36,7 @@ namespace API.Services
                     PaymentMethodTypes = new List<string> { "card" }
                 };
                 intent = await service.CreateAsync(options);
-                basket.PaymentIntentId = intent.Id;
-                basket.ClientSecret = intent.ClientSecret;
+                
             }
             else // update the amount, cause that's the only available option to change
             {
