@@ -16,31 +16,54 @@ import agent from '../../app/api/agent';
 import { useAppDispatch } from '../../app/store/configureStore';
 import { clearBasket } from '../basket/basketSlice';
 import { LoadingButton } from '@mui/lab';
+import { StripeElementType } from '@stripe/stripe-js';
 
 
 const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
-function getStepContent(step: number) {
-    switch (step) {
-        case 0:
-            return <AddressForm />;
-        case 1:
-            return <Review/>;
-        case 2:
-            return <PaymentForm />;
-        default:
-            throw new Error('Unknown step');
-    }
-}
+
 
 // const theme = createTheme();
 
 export default function CheckoutPage() {
-    
+
     const [activeStep, setActiveStep] = useState(0);
     const [orderNumber, setOrderNumber] = useState(0);
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
+
+    // local state of card and setting the type to a official StripeElement, making it optional? and setting it to empty initially
+    const [cardState, setCardState] = useState<{ elementError: { [key in StripeElementType]?: string } }>({ elementError: {} });
+    const [cardComplete, setCardComplete] = useState<any>({ cardNumber: false, CardExpiry: false, cardCvc: false });
+
+    function onCardInputChange(event: any) {
+        setCardState({
+            ...cardState,
+            elementError: {
+                ...cardState.elementError,
+                [event.elementType]: event.error?.message
+            }
+        })
+        setCardComplete({ ...cardComplete, [event.elementType]: event.complete });
+    }
+
+
+    function getStepContent(step: number) {
+        switch (step) {
+            case 0:
+                return <AddressForm />;
+            case 1:
+                return <Review />;
+            case 2:
+                return <PaymentForm 
+                            cardState={cardState}
+                            onCardInputChange={onCardInputChange}
+                        />;
+            default:
+                throw new Error('Unknown step');
+        }
+    }
+
 
     const currentValidationSchema = validationSchema[activeStep];
 
@@ -53,7 +76,7 @@ export default function CheckoutPage() {
         agent.Account.fetchAddress()
             .then(response => {
                 if (response) {
-                    methods.reset({...methods.getValues(), ...response, saveAddress: false}) 
+                    methods.reset({ ...methods.getValues(), ...response, saveAddress: false })
                 } // reset our form with the values we get back here
             })
     }, [methods])
@@ -61,24 +84,24 @@ export default function CheckoutPage() {
 
     const handleNext = async (data: FieldValues) => {
 
-        const {nameOnCard, saveAddress, ...shippingAddress} = data;
+        const { nameOnCard, saveAddress, ...shippingAddress } = data;
 
         if (activeStep === steps.length - 1) {
             // console.log(data)
             setLoading(true);
             try {
                 // value names the same as in the create order dto
-                const orderNumber = await agent.Orders.create({saveAddress, shippingAddress});
+                const orderNumber = await agent.Orders.create({ saveAddress, shippingAddress });
                 setOrderNumber(orderNumber);
                 setActiveStep(activeStep + 1);
                 dispatch(clearBasket());
                 setLoading(false);
-            } 
+            }
             catch (error) {
                 console.log(error);
                 setLoading(false);
             }
-        } 
+        }
         else {
             setActiveStep(activeStep + 1);
         }
@@ -87,6 +110,17 @@ export default function CheckoutPage() {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+
+    function submitDisabled(): boolean {
+        if (activeStep === steps.length - 1) {
+            return !cardComplete.cardCvc 
+                || !cardComplete.cardExpiry 
+                || !cardComplete.cardNumber
+                || !methods.formState.isValid
+        } else {
+            return !methods.formState.isValid
+        }
+    }
 
     return (
         <FormProvider {...methods}>
@@ -124,7 +158,7 @@ export default function CheckoutPage() {
                                 )}
                                 <LoadingButton
                                     loading={loading}
-                                    disabled={!methods.formState.isValid}
+                                    disabled={submitDisabled()}
                                     variant="contained"
                                     type='submit'
                                     sx={{ mt: 3, ml: 1 }}
