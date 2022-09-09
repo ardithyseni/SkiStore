@@ -114,6 +114,9 @@ namespace API
 
             app.UseRouting();
 
+            app.UseDefaultFiles(); // 
+            app.UseStaticFiles();
+
             app.UseCors(opt => 
             {
                 opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
@@ -125,6 +128,8 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                // if our api encounters a route in the react-app that it doesnt understand
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
