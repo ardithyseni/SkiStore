@@ -7,8 +7,7 @@ import { store } from "../store/configureStore";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-
+axios.defaults.baseURL = 'http://localhost:5000/api/';
 axios.defaults.withCredentials = true; // allow cookie sharing between localhost 5000 and 3000
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -21,8 +20,7 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(async response => // since it's async 
     {
-        if (process.env.NODE_ENV === 'development') await sleep();
-        
+        await sleep();
         console.log(response);
         const pagination = response.headers['pagination'];
         if (pagination) {                                 // Converts a JSON string into an object.
