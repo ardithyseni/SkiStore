@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
-{
+{   
     [AllowAnonymous]
-    public class Fallback : Controller
+    public class FallbackController : Controller
     {
         public IActionResult Index()
         {
