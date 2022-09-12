@@ -43,7 +43,7 @@ export default function AboutPage() {
                         </Typography>
                         <Typography variant="h5" align="center" color="text.secondary" paragraph>
                             Ski-Store Web Application developed &amp; deployed online to Heroku by Ardit Hyseni, following the course of Neil Cummings.
-                            Written in .Net Core 5 &amp; React, using a PostGreSQL Database.
+                            Written in .NET Core 5 &amp; React, using a PostGreSQL Database.
                         </Typography>
                     </Container>
                 </Box>
