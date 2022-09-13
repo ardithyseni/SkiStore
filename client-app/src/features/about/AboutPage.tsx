@@ -48,7 +48,7 @@ export default function AboutPage() {
                     </Container>
                 </Box>
                 <Container sx={{ py: 4 }} maxWidth="md">
-                    {/* End hero unit   */}
+                    {/* End hero unit */}
                     <Grid container spacing={4}>
                         {cards.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4}>
@@ -61,7 +61,7 @@ export default function AboutPage() {
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            Ski Store GitHub Repository
+                                            Ski-Store GitHub Repository
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
