@@ -81,7 +81,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
         </Box>
 
         <Box>
-          <List sx={{ display: "flex" }}>
+          <List sx={{ display: 'flex' }}>
             {midLinks.map(({ title, path }) => (
               <ListItem
                 component={NavLink}
@@ -92,6 +92,14 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                 {title.toUpperCase()}
               </ListItem>
             ))}
+            {user && user.roles?.includes('Admin') && user.roles?.includes('Manager') &&
+              <ListItem
+                component={NavLink}
+                to={'/inventory'}
+                sx={navStyles}
+              >
+                INVENTORY
+              </ListItem>}
           </List>
         </Box>
 
