@@ -92,7 +92,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                 {title.toUpperCase()}
               </ListItem>
             ))}
-            {user && user.roles?.includes('Admin') && user.roles?.includes('Manager') &&
+            {user && (user.roles?.includes('Admin') || user.roles?.includes('Manager')) &&
               <ListItem
                 component={NavLink}
                 to={'/inventory'}
